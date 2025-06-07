@@ -4,13 +4,6 @@
   # Publish the root directory since index.html is at the root
   publish = "."
 
-# Redirect rules for SPA behavior (optional)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  conditions = {Role = ["admin"]}
-
 # Security headers (recommended)
 [[headers]]
   for = "/*"
