@@ -1,8 +1,7 @@
 // Calculator Data - Updated from CSV
 const CALCULATOR_DATA = {
     baseGummyCosts: {
-        "3.5g": 0.0368,
-        "4g": 0.0446,   // Note: CSV shows 5.5g but PRD shows 4g, using 5.5g cost for 4g
+        "3.5g": 0.0368,  // Combined 3.5g/4g option
         "7.5g": 0.0744,
         "11g": 0.0886
     },
@@ -96,8 +95,7 @@ const CALCULATOR_DATA = {
     },
     
     moqPerFlavor: {
-        "3.5g": 4400,
-        "4g": 4400,
+        "3.5g": 4400,  // Combined 3.5g/4g option
         "7.5g": 2250,
         "11g": 2250
     },
@@ -225,7 +223,7 @@ class GummyCalculator {
     // Validate and adjust quantity based on MOQ and increments
     validateAndAdjustQuantity() {
         const moq = CALCULATOR_DATA.moqPerFlavor[this.gummyType];
-        const increment = (this.gummyType === "3.5g" || this.gummyType === "4g") ? 440 : 225;
+        const increment = (this.gummyType === "3.5g") ? 440 : 225;
         
         if (this.gummyQuantity < moq) {
             this.gummyQuantity = moq;
@@ -879,7 +877,7 @@ function generateQuoteHTML(data) {
             
             <div class="section">
                 <div class="section-title">Order Details</div>
-                <div class="detail-row"><span>Gummy Type:</span><span>${data.calculator.gummyType} Gummy</span></div>
+                <div class="detail-row"><span>Gummy Type:</span><span>${data.calculator.gummyType === "3.5g" ? "3.5g/4g" : data.calculator.gummyType} Gummy</span></div>
                 <div class="detail-row"><span>Quantity:</span><span>${data.calculator.gummyQuantity.toLocaleString()} gummies</span></div>
                 <div class="detail-row"><span>Gummies Per Package:</span><span>${data.calculator.gummiesPerPackage}</span></div>
                 <div class="detail-row"><span>Number of Packages:</span><span>${data.results.numberOfPackages}</span></div>
@@ -937,7 +935,7 @@ function exportCSV() {
     
     // Base Gummy
     csvData.push(['Base Gummy', '']);
-    csvData.push(['Type', calculator.gummyType]);
+    csvData.push(['Type', calculator.gummyType === "3.5g" ? "3.5g/4g" : calculator.gummyType]);
     csvData.push(['Quantity', calculator.gummyQuantity]);
     csvData.push(['', '']);
     
